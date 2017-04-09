@@ -1,1 +1,39 @@
-<h1>Hello World</h1>
+<h1>Task Manager</h1>
+<p><em>Do you wanna do it now or later?</em></p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-offset-3 col-xs-3">
+            <p><strong>Now</strong> or <strong>never</strong></p>
+            <form>
+                <input type="text" name="" value="" ng-model="now">
+                <button type="submit" name="button" ng-click="addNow()">Add</button>
+                <ul ng-repeat="todoNow in presentList track by $index">
+                    <li>{{todoNow}}
+                        <button type="button" name="button" ng-click="editNow()">Edit</button>
+                        <ng-show ng-show="editMe">
+                            <input type="text" ng-model="todoNow"><button type="button" ng-click="editNowDone($index, todoNow)">Validate Edit</button>
+                        </ng-show>
+                        <button type="button" name="button" ng-click="deleteNow($index)">Delete</button>
+                    </li>
+                </ul>
+            </form>
+        </div>
+
+        <div class="col-xs-3">
+            <p><strong>Later</strong> cuz <strong>lazy</strong></p>
+            <form>
+                <input type="text" name="" value="" ng-model="later">
+                <button type="submit" name="button" ng-click="addLater()">Add</button>
+            </form>
+            <ul ng-repeat="todoLater in futureList track by $index">
+                <li>{{todoLater}}
+                    <button type="button" name="button" ng-click="editLater()">Edit</button>
+                    <ng-show ng-show="editMe">
+                        <input type="text" ng-model="todoLater"><button type="button" ng-click="editLaterDone($index, todoLater)">Validate Edit</button>
+                    </ng-show>
+                    <button type="button" name="button" ng-click="deleteLater($index)">Delete</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
