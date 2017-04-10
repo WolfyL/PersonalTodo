@@ -9,7 +9,7 @@ const hashCode = (s) => s.split("").reduce((a, b) => {
 }, 0);
 
 const nowListSchema = new mongoose.Schema({
-    nowListId: {
+    user: {
         type: String
     },
     elementNow: String,
