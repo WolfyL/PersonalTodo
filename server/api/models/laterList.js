@@ -3,13 +3,8 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import token from '../token.js';
 
-const hashCode = (s) => s.split("").reduce((a, b) => {
-    a = ((a << 5) - a) + b.charCodeAt(0);
-    a & a;
-}, 0);
-
 const laterListSchema = new mongoose.Schema({
-    laterListId: {
+    user: {
         type: String
     },
     elementLater: String,
@@ -27,11 +22,11 @@ export default class laterList {
     findAll(req, res) {
         model.find({}, {
             password: 0
-        }, (err, nowLists) => {
-            if (err || !nowLists) {
+        }, (err, laterLists) => {
+            if (err || !laterLists) {
                 res.sendStatus(403);
             } else {
-                res.json(nowLists);
+                res.json(laterLists);
             }
         });
     }
@@ -39,11 +34,11 @@ export default class laterList {
     findById(req, res) {
         model.findById(req.params.id, {
             password: 0
-        }, (err, nowList) => {
-            if (err || !nowList) {
+        }, (err, laterList) => {
+            if (err || !laterList) {
                 res.sendStatus(403);
             } else {
-                res.json(nowList);
+                res.json(laterList);
             }
         });
     }
@@ -54,19 +49,19 @@ export default class laterList {
             req.body.password = bcrypt.hashSync(req.body.password, salt);
         }
         model.create(req.body,
-            (err, nowList) => {
-                if (err || !nowList) {
+            (err, laterList) => {
+                if (err || !laterList) {
                     if (err.code === 11000 || err.code === 11001) {
                         err.message = "Email " + req.body.email + " already exist";
                     }
                     res.status(500).send(err.message);
                 } else {
-                    let tk = jsonwebtoken.sign(nowList, token, {
+                    let tk = jsonwebtoken.sign(laterList, token, {
                         expiresIn: "24h"
                     });
                     res.json({
                         success: true,
-                        nowList: nowList,
+                        laterList: laterList,
                         token: tk
                     });
                 }
@@ -74,19 +69,15 @@ export default class laterList {
     }
 
     update(req, res) {
-        model.update({
+        model.findByIdAndUpdate({
             _id: req.params.id
-        }, req.body, (err, nowList) => {
-            if (err || !nowList) {
+        }, req.body, (err, laterList) => {
+            if (err || !laterList) {
                 res.status(500).send(err.message);
             } else {
-                let tk = jsonwebtoken.sign(nowList, token, {
-                    expiresIn: "24h"
-                });
                 res.json({
                     success: true,
-                    nowList: nowList,
-                    token: tk
+                    laterList: laterList
                 });
             }
         });

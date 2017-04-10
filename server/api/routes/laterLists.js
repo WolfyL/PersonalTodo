@@ -12,15 +12,15 @@ module.exports = (app) => {
 
     var laterList = new LaterList();
 
-    router.get('/', Auth.isAdministrator, laterList.findAll);
+    router.get('/', Auth.hasAuthorization, laterList.findAll);
 
-    router.get('/:id', Auth.isAdministrator, laterList.findById);
+    router.get('/:id', Auth.hasAuthorization, laterList.findById);
 
     router.post('/', laterList.create);
 
-    router.put('/:id', Auth.isAdministrator, laterList.update);
+    router.put('/:id', Auth.hasAuthorization, laterList.update);
 
-    router.delete('/:id', Auth.isAdministrator, laterList.delete);
+    router.delete('/:id', Auth.hasAuthorization, laterList.delete);
 
     app.use('/later', router);
 

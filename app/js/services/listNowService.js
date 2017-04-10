@@ -10,8 +10,8 @@ angular.module('app')
             create: function(elementNow, userId) {
                 return $http.post('/now/', {elementNow : elementNow, user : userId});
             },
-            update: function(id, user) {
-                return $http.put('/now/' + id, user);
+            update: function(id, elementNow) {
+                return $http.put('/now/' + id, {elementNow});
             },
             delete: function(id) {
                 return $http.delete('/now/' + id);

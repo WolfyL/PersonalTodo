@@ -2,18 +2,18 @@
 <p><em>Do you wanna do it now or later?</em></p>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-xs-offset-3 col-xs-3">
+        <div class="col-xs-offset-1 col-xs-3">
             <p><strong>Now</strong> or <strong>never</strong></p>
             <form>
                 <input type="text" name="" value="" ng-model="now">
                 <button type="submit" name="button" ng-click="addNow()">Add</button>
-                <ul ng-repeat="todoNow in presentList track by $index">
-                    <li>{{todoNow}}
-                        <button type="button" name="button" ng-click="editNow()">Edit</button>
-                        <ng-show ng-show="editMe">
+                <ul ng-repeat="taskNow in tasksNow track by $index">
+                    <li>{{taskNow.elementNow}}
+                        <button type="button" name="button" ng-click="editNow($index)">Edit</button>
+                        <ng-show ng-show="editMeNow[$index]">
                             <input type="text" ng-model="todoNow"><button type="button" ng-click="editNowDone($index, todoNow)">Validate Edit</button>
                         </ng-show>
-                        <button type="button" name="button" ng-click="deleteNow($index)">Delete</button>
+                        <button type="button" name="button" ng-click="deleteNow($index, taskNow)">Delete</button>
                     </li>
                 </ul>
             </form>
@@ -25,15 +25,21 @@
                 <input type="text" name="" value="" ng-model="later">
                 <button type="submit" name="button" ng-click="addLater()">Add</button>
             </form>
-            <ul ng-repeat="todoLater in futureList track by $index">
-                <li>{{todoLater}}
-                    <button type="button" name="button" ng-click="editLater()">Edit</button>
-                    <ng-show ng-show="editMe">
+            <ul ng-repeat="taskLater in tasksLater track by $index">
+                <li>{{taskLater.elementLater}}
+                    <button type="button" name="button" ng-click="editLater($index)">Edit</button>
+                    <ng-show ng-show="editMeLater[$index]">
                         <input type="text" ng-model="todoLater"><button type="button" ng-click="editLaterDone($index, todoLater)">Validate Edit</button>
                     </ng-show>
-                    <button type="button" name="button" ng-click="deleteLater($index)">Delete</button>
+                    <button type="button" name="button" ng-click="deleteLater($index, taskLater)">Delete</button>
                 </li>
             </ul>
         </div>
+    </div>
+    <div class="row">
+
+        <!-- <div class="col-xs-offset-2 col-xs-3">
+            <button type="button" ng-click="randomTaskLater()">Random task : </button>{{taskToDo}}
+        </div> -->
     </div>
 </div>

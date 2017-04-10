@@ -12,15 +12,15 @@ module.exports = (app) => {
 
     var nowList = new NowList();
 
-    router.get('/', Auth.isAdministrator, nowList.findAll);
+    router.get('/', Auth.hasAuthorization, nowList.findAll);
 
-    router.get('/:id', Auth.isAdministrator, nowList.findById);
+    router.get('/:id', Auth.hasAuthorization, nowList.findById);
 
     router.post('/', nowList.create);
 
-    router.put('/:id', Auth.isAdministrator, nowList.update);
+    router.put('/:id', Auth.hasAuthorization, nowList.update);
 
-    router.delete('/:id', Auth.isAdministrator, nowList.delete);
+    router.delete('/:id', Auth.hasAuthorization, nowList.delete);
 
     app.use('/now', router);
 

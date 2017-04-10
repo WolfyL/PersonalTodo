@@ -3,11 +3,6 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import token from '../token.js';
 
-const hashCode = (s) => s.split("").reduce((a, b) => {
-    a = ((a << 5) - a) + b.charCodeAt(0);
-    a & a;
-}, 0);
-
 const nowListSchema = new mongoose.Schema({
     user: {
         type: String
@@ -67,38 +62,34 @@ export default class nowList {
                     res.json({
                         success: true,
                         nowList: nowList,
-                        token: tk
                     });
                 }
             });
     }
 
     update(req, res) {
-        model.update({
-            _id: req.params.id
-        }, req.body, (err, nowList) => {
-            if (err || !nowList) {
-                res.status(500).send(err.message);
-            } else {
-                let tk = jsonwebtoken.sign(nowList, token, {
-                    expiresIn: "24h"
-                });
+      console.log('body', req.body);
+        model.findByIdAndUpdate({
+                _id: req.params.id
+            }, req.body, (err, nowList) => {
+                if (err || !nowList) {
+                    res.status(500).send(err.message);
+                } else {
                 res.json({
                     success: true,
                     nowList: nowList,
-                    token: tk
                 });
             }
         });
-    }
+}
 
-    delete(req, res) {
-        model.findByIdAndRemove(req.params.id, (err) => {
-            if (err) {
-                res.status(500).send(err.message);
-            } else {
-                res.sendStatus(200);
-            }
-        });
-    }
+delete(req, res) {
+    model.findByIdAndRemove(req.params.id, (err) => {
+        if (err) {
+            res.status(500).send(err.message);
+        } else {
+            res.sendStatus(200);
+        }
+    });
+}
 }
